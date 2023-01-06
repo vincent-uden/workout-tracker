@@ -1,23 +1,18 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Icon } from "@iconify/react";
 
 import { api } from "../utils/api";
 import { useState } from "react";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Area, AreaChart, ResponsiveContainer } from "recharts";
+
+type IndexView = "weight" | "workout" | "nutrition";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
+
+  const [activeView, setActiveVew] = useState<IndexView>("weight");
 
   return (
     <>
@@ -34,13 +29,31 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-start">
         <div className="relative top-8 flex flex-row gap-4">
-          <Icon icon="ion:scale" className="text-white w-8 h-8"/>
-          <Icon icon="map:gym" className="text-white w-8 h-8 scale-75 opacity-20"/>
-          <Icon icon="mdi:food-fork-drink" className="text-white w-8 h-8 scale-75 opacity-20"/>
+          <Icon
+            icon="ion:scale"
+            className={`h-8 w-8 text-white transition ${activeView == "weight" ? "opacity-100" : "opacity-20 scale-75"}`}
+            onClick={() => setActiveVew("weight")}
+          />
+          <Icon
+            icon="map:gym"
+            className={`h-8 w-8 text-white transition ${activeView == "workout" ? "opacity-100" : "opacity-20 scale-75"}`}
+            onClick={() => setActiveVew("workout")}
+          />
+          <Icon
+            icon="mdi:food-fork-drink"
+            className={`h-8 w-8 text-white transition ${activeView == "nutrition" ? "opacity-100" : "opacity-20 scale-75"}`}
+            onClick={() => setActiveVew("nutrition")}
+          />
         </div>
         <div className="container flex flex-col items-center justify-center gap-12 py-16">
           <div className="flex flex-col items-center">
-            <AuthShowcase />
+            {
+              {
+                weight: <WeightView />,
+                workout: <WorkoutView />,
+                nutrition: <NutritionView />,
+              }[activeView]
+            }
           </div>
         </div>
       </main>
@@ -50,7 +63,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const AuthShowcase: React.FC = () => {
+const WeightView: React.FC = () => {
   const [newWeight, setNewWeight] = useState<string>("");
 
   const { data: sessionData } = useSession();
@@ -203,6 +216,22 @@ const AuthShowcase: React.FC = () => {
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
+    </div>
+  );
+};
+
+const WorkoutView: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center justify-start gap-4">
+      <h1>Workout</h1>
+    </div>
+  );
+};
+
+const NutritionView: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center justify-start gap-4">
+      <h1>Nutrition</h1>
     </div>
   );
 };
