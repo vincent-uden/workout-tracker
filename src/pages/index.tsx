@@ -5,7 +5,15 @@ import { Icon } from "@iconify/react";
 
 import { api } from "../utils/api";
 import { useState } from "react";
-import { Area, AreaChart, ResponsiveContainer } from "recharts";
+import {
+  Area,
+  AreaChart,
+  Line,
+  ReferenceDot,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 type IndexView = "weight" | "workout" | "nutrition";
 
@@ -31,17 +39,23 @@ const Home: NextPage = () => {
         <div className="relative top-8 flex flex-row gap-4">
           <Icon
             icon="ion:scale"
-            className={`h-8 w-8 text-white transition ${activeView == "weight" ? "opacity-100" : "opacity-20 scale-75"}`}
+            className={`h-8 w-8 text-white transition ${
+              activeView == "weight" ? "opacity-100" : "scale-75 opacity-20"
+            }`}
             onClick={() => setActiveVew("weight")}
           />
           <Icon
             icon="map:gym"
-            className={`h-8 w-8 text-white transition ${activeView == "workout" ? "opacity-100" : "opacity-20 scale-75"}`}
+            className={`h-8 w-8 text-white transition ${
+              activeView == "workout" ? "opacity-100" : "scale-75 opacity-20"
+            }`}
             onClick={() => setActiveVew("workout")}
           />
           <Icon
             icon="mdi:food-fork-drink"
-            className={`h-8 w-8 text-white transition ${activeView == "nutrition" ? "opacity-100" : "opacity-20 scale-75"}`}
+            className={`h-8 w-8 text-white transition ${
+              activeView == "nutrition" ? "opacity-100" : "scale-75 opacity-20"
+            }`}
             onClick={() => setActiveVew("nutrition")}
           />
         </div>
@@ -65,6 +79,8 @@ export default Home;
 
 const WeightView: React.FC = () => {
   const [newWeight, setNewWeight] = useState<string>("");
+  const [minW, setMinW] = useState<number>(0);
+  const [maxW, setMaxW] = useState<number>(100);
 
   const { data: sessionData } = useSession();
 
@@ -72,10 +88,25 @@ const WeightView: React.FC = () => {
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
-
   const { data: weightEntries, refetch: fetchWeights } =
     api.example.getAllWeightEntries.useQuery(undefined, {
       enabled: sessionData?.user !== undefined,
+      onSuccess: (data) => {
+        let min = 0;
+        let max = 0;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]!!.kg < min) {
+            min = i;
+          }
+
+          if (data[i]!!.kg > max) {
+            max = i;
+          }
+        }
+
+        setMinW(data[min]?.kg ?? 0);
+        setMaxW(data[max]?.kg ?? 100);
+      },
     });
 
   const createWeightEntryMut = api.example.addWeightEntry.useMutation({
@@ -85,29 +116,6 @@ const WeightView: React.FC = () => {
   const deleteWeightEntryMut = api.example.deleteWeightEntry.useMutation({
     onSuccess: () => fetchWeights(),
   });
-
-  const plotData = [
-    {
-      name: "1",
-      w: 60,
-    },
-    {
-      name: "2",
-      w: 80,
-    },
-    {
-      name: "3",
-      w: 70,
-    },
-    {
-      name: "4",
-      w: 75,
-    },
-    {
-      name: "5",
-      w: 70,
-    },
-  ];
 
   return (
     <div className="flex flex-col items-center justify-start gap-4">
@@ -119,7 +127,20 @@ const WeightView: React.FC = () => {
       >
         <div className="h-40 w-screen -translate-x-12">
           <ResponsiveContainer width={"100%"} height={"100%"}>
-            <AreaChart data={plotData}>
+            <AreaChart
+              data={
+                weightEntries?.map((v) => {
+                  return {
+                    name: v.created_at,
+                    w: v.kg,
+                    x: `${v.created_at.getDate()}/${
+                      v.created_at.getMonth() + 1
+                    }`,
+                  };
+                }) ?? []
+              }
+              margin={{ top: 30, right: 30 }}
+            >
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.8} />
@@ -129,10 +150,46 @@ const WeightView: React.FC = () => {
               <Area
                 type="monotone"
                 dataKey="w"
-                stroke="#38bdf8"
+                stroke="#38bdf8aa"
                 strokeWidth="2"
                 fill="url(#colorUv)"
+                label={() => "ASKLJD"}
               />
+              <XAxis
+                dataKey="x"
+                axisLine={false}
+                tickLine={false}
+                tickMargin={10}
+                tick={{ fill: "#38bdf8aa", fontSize: 14 }}
+              />
+              <YAxis
+                domain={[minW, maxW]}
+                tickLine={false}
+                tick={true}
+                axisLine={false}
+                width={0}
+              />
+              {weightEntries?.map((v, i) => {
+                return (
+                  <ReferenceDot
+                    x={i}
+                    y={v.kg}
+                    r={3}
+                    fill="#38bdf8"
+                    stroke="#38bdf8"
+                    strokeWidth={2}
+                    label={{
+                      position: "top",
+                      value: v.kg,
+                      fontSize: 14,
+                      fill: "#ddd",
+                      offset: 10,
+                      fontWeight: "bold",
+                    }}
+                    key={`ref-dot-${i}`}
+                  />
+                );
+              })}
             </AreaChart>
           </ResponsiveContainer>
         </div>

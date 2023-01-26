@@ -10,3 +10,21 @@ div.rounded-wide {
   border-bottom-left-radius: 50% 48px;
   border-bottom-right-radius: 50% 48px;
 }
+
+@keyframes dot-fadein {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.recharts-reference-dot {
+    animation: dot-fadein 2s;
+}
