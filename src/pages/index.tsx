@@ -35,6 +35,8 @@ const Home: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
+      <div className="bg-pattern" />
+      <div className="bg-pattern-grad" />
       <main className="flex min-h-screen flex-col items-center justify-start">
         <div className="relative top-8 flex flex-row gap-4">
           <Icon
@@ -204,7 +206,7 @@ const WeightView: React.FC = () => {
         <div className="grid grid-cols-3">
           <label
             htmlFor="newWeight"
-            className="translate-x-[100%] -translate-y-8 text-white/40"
+            className="translate-x-[100%] -translate-y-8 text-gray-200"
           >
             Weight
           </label>
@@ -213,7 +215,7 @@ const WeightView: React.FC = () => {
             name="newWeight"
             id="newWeight"
             placeholder="0.0"
-            className="rounded border border-white/20 bg-transparent py-2 text-center font-ibm-cond text-2xl text-white placeholder-white/40 outline-none transition-colors"
+            className="rounded border border-white/20 bg-transparent py-2 text-center font-ibm-cond text-2xl text-white placeholder-white/40 outline-none transition-colors bg-[#18181b]"
             onChange={(e) => {
               setNewWeight(e.target.value);
             }}
@@ -221,7 +223,7 @@ const WeightView: React.FC = () => {
           />
           <label
             htmlFor="newWeight"
-            className="-translate-x-[100%] -translate-y-8 text-right text-white/40"
+            className="-translate-x-[100%] -translate-y-8 text-right text-gray-200"
           >
             (kg)
           </label>
@@ -229,7 +231,7 @@ const WeightView: React.FC = () => {
         <button
           className={`rounded-full ${
             sessionData
-              ? "bg-sky-500/40 hover:bg-sky-500/80"
+              ? "bg-sky-600 hover:bg-sky-500"
               : "bg-white/10 hover:bg-white/20"
           } px-10 py-3 font-semibold text-white no-underline transition`}
           onClick={() => {

@@ -6,6 +6,35 @@ body {
   background-color: #18181b;
 }
 
+div.bg-pattern {
+  background-image: url("/pattern.png");
+  background-position: 5px 5px;
+  background-size: 540px;
+  background-repeat: repeat;
+
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+
+ opacity: 0.06;
+
+  z-index: -99;
+}
+
+div.bg-pattern-grad {
+  background: linear-gradient(90deg,rgba(134,32,32,0) 0%, #18181b 40%, #18181b 50%,#18181b 60%,rgba(134,32,32,0) 100%);
+
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+
+  opacity: 1;
+
+  z-index: -98;
+}
+
 div.rounded-wide {
   border-bottom-left-radius: 50% 48px;
   border-bottom-right-radius: 50% 48px;
