@@ -8,7 +8,6 @@ import { useState } from "react";
 import {
   Area,
   AreaChart,
-  Line,
   ReferenceDot,
   ResponsiveContainer,
   XAxis,
@@ -18,7 +17,7 @@ import {
 type IndexView = "weight" | "workout" | "nutrition";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  //const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   const [activeView, setActiveVew] = useState<IndexView>("weight");
 
@@ -86,10 +85,12 @@ const WeightView: React.FC = () => {
 
   const { data: sessionData } = useSession();
 
+  /*
   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
+  */
   const { data: weightEntries, refetch: fetchWeights } =
     api.example.getAllWeightEntries.useQuery(undefined, {
       enabled: sessionData?.user !== undefined,
@@ -97,11 +98,11 @@ const WeightView: React.FC = () => {
         let min = 0;
         let max = 0;
         for (let i = 0; i < data.length; i++) {
-          if (data[i]!!.kg < min) {
+          if (data[i]?.kg ?? 1000000 < min) {
             min = i;
           }
 
-          if (data[i]!!.kg > max) {
+          if (data[i]?.kg ?? -1 > max) {
             max = i;
           }
         }
