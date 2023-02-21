@@ -58,3 +58,29 @@ div.rounded-wide {
 .recharts-reference-dot {
     animation: dot-fadein 2s;
 }
+
+
+.rdp * {
+  color: white;
+}
+
+.rdp .rdp-caption {
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+}
+
+.rdp .rdp-caption_label {
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+.rdp-head {
+}
+
+.rdp-head_cell {
+  font-size: 14px;
+  padding-left: 2px;
+  padding-right: 2px;
+
+}
