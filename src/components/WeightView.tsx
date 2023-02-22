@@ -18,7 +18,7 @@ const WeightView: React.FC = () => {
 
   const [editEntry, setEditEntry] = useState<number | null>(null);
   const [editWeight, setEditWeight] = useState<number | null>(null);
-  const [editDate, setEditDate] = useState<Date | null>(null);
+  const [editDate, setEditDate] = useState<Date>();
 
   const { data: sessionData } = useSession();
 
@@ -54,6 +54,10 @@ const WeightView: React.FC = () => {
   });
 
   const deleteWeightEntryMut = api.example.deleteWeightEntry.useMutation({
+    onSuccess: () => fetchWeights(),
+  });
+  
+  const updateWeightEntryMut = api.example.updateWeightEntry.useMutation({
     onSuccess: () => fetchWeights(),
   });
 
@@ -187,13 +191,15 @@ const WeightView: React.FC = () => {
               ? "pointer-events-none opacity-0"
               : "pointer-events-auto opacity-100"
           }`}
-          onClick={() => setEditEntry(null)}
+          onClick={() => {setEditEntry(null);setEditWeight(null)}}
         >
           <div
-            className="w-full rounded-xl bg-zinc-800 flex flex-col items-center p-8 mx-8 shadow-2xl"
+            className="mx-8 flex w-full flex-col items-center rounded-xl bg-zinc-800 p-8 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-white text-center text-lg mb-8">Edit Weight Entry</h3>
+            <h3 className="mb-8 text-center text-lg text-white">
+              Edit Weight Entry
+            </h3>
             <input
               className="rounded border border-white/20 bg-transparent bg-zinc-900 py-2 text-center font-ibm-cond text-base text-white placeholder-white/40 outline-none transition-colors"
               type="text"
@@ -204,13 +210,33 @@ const WeightView: React.FC = () => {
                   ? ""
                   : weightEntries!![editEntry!!]?.kg.toPrecision(3) ?? ""
               }
-              onChange={(e) => {setEditWeight(Number(e.target.value))}}
+              onChange={(e) => {
+                setEditWeight(Number(e.target.value));
+              }}
+              value={editWeight ?? ""}
             />
-            
+
             <div className="h-8" />
             <DayPicker
-            mode="single"
-             />
+              mode="single"
+              selected={editDate}
+              onSelect={setEditDate}
+              month={editDate}
+            />
+            <button
+              className={`rounded-full bg-sky-600 px-10 py-3 mt-8 font-semibold text-white no-underline transition hover:bg-sky-500`}
+              onClick={() => {
+                updateWeightEntryMut.mutate({
+                  id: weightEntries!![editEntry!!]!!.id,
+                  kg: editWeight ?? weightEntries!![editEntry!!]!!.kg,
+                  created_at: editDate!!,
+                });
+                setEditEntry(null);
+                setEditWeight(null);
+              }}
+            >
+            Save
+            </button>
           </div>
         </div>
 
@@ -226,9 +252,14 @@ const WeightView: React.FC = () => {
                     <tr
                       className=""
                       key={`wEntries${i}`}
-                      onClick={() => setEditEntry(i)}
+                      onClick={() => {
+                        setEditEntry(i);
+                        setEditDate(v.created_at);
+                      }}
                     >
-                      <td className="pr-6 text-right text-white">{v.kg.toPrecision(3)} kg</td>
+                      <td className="pr-6 text-right text-white">
+                        {v.kg.toPrecision(3)} kg
+                      </td>
                       <td className="text-white">
                         {v.created_at.toLocaleDateString()}
                       </td>

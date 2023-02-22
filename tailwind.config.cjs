@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         "ibm": ["IBM Plex Sans", "sans-serif"],
         "ibm-cond": ["IBM Plex Sans Condensed", "sans-serif"],
+      },
+      colors: {
+        fitblue: "#38bdf8",
       }
     },
   },
