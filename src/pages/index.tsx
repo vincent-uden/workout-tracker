@@ -37,8 +37,8 @@ const Home: NextPage = () => {
       </Head>
       <div className="bg-pattern" />
       <div className="bg-pattern-grad" />
-      <main className="flex min-h-screen flex-col items-center justify-start">
-        <div className="relative top-8 flex flex-row gap-4">
+      <main className="min-h-screen">
+        <div className="relative top-8 flex flex-row gap-4 w-fit mx-auto">
           <Icon
             icon="ion:scale"
             className={`h-8 w-8 text-white transition ${
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
             onClick={() => setActiveVew("nutrition")}
           />
         </div>
-        <div className="container flex flex-col items-center justify-center gap-12 py-16">
+        <div className="container flex flex-col items-center justify-center gap-12 py-16 mx-auto">
           <div className="flex flex-col items-center">
             {
               {

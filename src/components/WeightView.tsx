@@ -66,10 +66,11 @@ const WeightView: React.FC = () => {
       <div
         className={
           (sessionData ? "block" : "hidden") +
-          " flex flex-col items-center justify-start gap-4"
+          " flex flex-col items-center justify-start gap-4 "
         }
       >
-        <div className="h-40 w-screen -translate-x-12">
+        <div className="h-40 w-full overflow-x-hidden md:border-zinc-800 md:border md:py-4 md:rounded md:bg-zinc-900">
+        <div className="w-full h-full -translate-x-12">
           <ResponsiveContainer width={"100%"} height={"100%"}>
             <AreaChart
               data={
@@ -136,6 +137,7 @@ const WeightView: React.FC = () => {
               })}
             </AreaChart>
           </ResponsiveContainer>
+</div>
         </div>
         <div className="h-4"></div>
         <div className="flex w-full flex-row px-4">
@@ -186,7 +188,7 @@ const WeightView: React.FC = () => {
         <div className="h-8"></div>
 
         <div
-          className={`fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-black/30 transition-opacity ${
+          className={`fixed top-0 left-0 flex h-screen w-full items-center justify-center bg-black/30 transition-opacity ${
             editEntry === null
               ? "pointer-events-none opacity-0"
               : "pointer-events-auto opacity-100"
@@ -208,7 +210,7 @@ const WeightView: React.FC = () => {
               placeholder={
                 weightEntries === null || editEntry === null
                   ? ""
-                  : weightEntries!![editEntry!!]?.kg.toPrecision(3) ?? ""
+                  : weightEntries![editEntry!]?.kg.toPrecision(3) ?? ""
               }
               onChange={(e) => {
                 setEditWeight(Number(e.target.value));
@@ -227,9 +229,9 @@ const WeightView: React.FC = () => {
               className={`rounded-full bg-sky-600 px-10 py-3 mt-8 font-semibold text-white no-underline transition hover:bg-sky-500`}
               onClick={() => {
                 updateWeightEntryMut.mutate({
-                  id: weightEntries!![editEntry!!]!!.id,
-                  kg: editWeight ?? weightEntries!![editEntry!!]!!.kg,
-                  created_at: editDate!!,
+                  id: weightEntries![editEntry!]!.id,
+                  kg: editWeight ?? weightEntries![editEntry!]!.kg,
+                  created_at: editDate!,
                 });
                 setEditEntry(null);
                 setEditWeight(null);
@@ -240,7 +242,7 @@ const WeightView: React.FC = () => {
           </div>
         </div>
 
-        <div className="max-h-60 overflow-y-scroll rounded-xl bg-zinc-800 p-8 pb-0 shadow-md">
+        <div className="max-h-60 overflow-y-scroll rounded-xl bg-zinc-900 border-fitblue border p-8 pb-0 shadow-md">
           <h2 className="mb-4 text-center text-xl text-white">
             Weight History
           </h2>
