@@ -2,7 +2,15 @@
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "ibm": ["IBM Plex Sans", "sans-serif"],
+        "ibm-cond": ["IBM Plex Sans Condensed", "sans-serif"],
+      },
+      colors: {
+        fitblue: "#38bdf8",
+      }
+    },
   },
   plugins: [],
 };

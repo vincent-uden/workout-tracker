@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
@@ -48,5 +49,27 @@ export const exampleRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }) => {
       await ctx.prisma.weightEntry.delete({ where: { id: input.id } });
+    }),
+
+  updateWeightEntry: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        kg: z.number(),
+        created_at: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // ctx.session.user.id
+      if ( (await ctx.prisma.weightEntry.findFirst({where: {id: input.id}}))?.userId !== ctx.session.user.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "The current session is not authorized to update this entry",
+        })
+      }
+      await ctx.prisma.weightEntry.update({
+        where: { id: input.id },
+        data: { kg: input.kg, created_at: input.created_at },
+      });
     }),
 });
