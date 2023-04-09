@@ -56,6 +56,7 @@ model User {
   accounts       Account[]
   sessions       Session[]
   weight_entries WeightEntry[]
+  FoodEntry      FoodEntry[]
 }
 
 model VerificationToken {
@@ -73,4 +74,25 @@ model WeightEntry {
   created_at DateTime @default(now())
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Food {
+  id           String      @id @default(cuid())
+  name         String
+  caloriesPerG Float
+  massUnits    Boolean
+  volumeUnits  Boolean
+  FoodEntry    FoodEntry[]
+}
+
+model FoodEntry {
+  id          String   @id @default(cuid())
+  foodId      String
+  userId      String
+  createdAt   DateTime @default(now())
+  amount      Float
+  usingMass   Boolean
+  usingVolume Boolean
+  food        Food     @relation(fields: [foodId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
