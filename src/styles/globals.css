@@ -92,3 +92,21 @@ div.rounded-wide {
 .rdp-day_selected {
   @apply text-fitblue;
 }
+
+.view-panel-enter {
+    opacity: 0;
+}
+
+.view-panel-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+}
+
+.view-panel-exit {
+    opacity: 0;
+}
+
+.view-panel-exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+}
