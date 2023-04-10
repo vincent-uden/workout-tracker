@@ -99,7 +99,7 @@ div.rounded-wide {
 
 .view-panel-enter-active {
     opacity: 1;
-    transition: opacity 200ms;
+    transition: opacity 300ms;
 }
 
 .view-panel-exit {
@@ -108,5 +108,5 @@ div.rounded-wide {
 
 .view-panel-exit-active {
     opacity: 0;
-    transition: opacity 200ms;
+    transition: opacity 300ms;
 }

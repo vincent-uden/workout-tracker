@@ -100,6 +100,7 @@ const WeightView = ({ nodeRef }: PanelProps) => {
                 strokeWidth="2"
                 fill="url(#colorUv)"
                 label={() => "ASKLJD"}
+                animationDuration={290}
               />
               <XAxis
                 dataKey="x"

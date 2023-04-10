@@ -81,18 +81,18 @@ const Home: NextPage = () => {
               {
                 {
                   weight: (
-                    <CSSTransition ref={weightRef} timeout={500} classNames="view-panel">
+                    <CSSTransition ref={weightRef} timeout={320} classNames="view-panel" key="a">
                       <WeightView nodeRef={weightRef}/>
                     </CSSTransition>
                   ),
                   workout: (
-                    <CSSTransition ref={workoutRef} timeout={500} classNames="view-panel">
+                    <CSSTransition ref={workoutRef} timeout={320} classNames="view-panel" key="b">
                   <WorkoutView nodeRef={workoutRef}/>
                     </CSSTransition>
                   ),
                   nutrition: (
-                    <CSSTransition ref={nutritionRef} timeout={500} classNames="view-panel">
-                  <NutritionView nodeRef={nutritionRef} />
+                    <CSSTransition ref={nutritionRef} timeout={320} classNames="view-panel" key="c">
+                      <NutritionView nodeRef={nutritionRef} />
                     </CSSTransition>
                   ),
                 }[activeView]
@@ -129,7 +129,7 @@ const NutritionView  = ({ nodeRef }: PanelProps) => {
         1873<span className="ml-2 text-2xl text-white/60">kcal</span>
       </h1>
 
-      <div className="w-full max-w-[90vw] grow basis-8 rounded border border-fitblue bg-[#18181b] p-4">
+      <div className="w-full max-w-[90vw] basis-72 rounded border border-fitblue bg-[#18181b] p-4">
         <table className="w-[80vw]">
           <thead className="">
             <tr className="border-b border-white">
