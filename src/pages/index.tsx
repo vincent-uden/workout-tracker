@@ -174,7 +174,7 @@ const NutritionView  = ({ nodeRef }: PanelProps) => {
             ? "pointer-events-none opacity-0"
             : "pointer-events-auto opacity-100"
         }`}
-        onClick={() => {}}
+        onClick={() => {return}}
       >
         <div
           className="fixed top-0 left-0 -z-10 h-screen w-screen"
@@ -182,7 +182,7 @@ const NutritionView  = ({ nodeRef }: PanelProps) => {
         />
         <div
           className="mx-8 grid w-full grid-cols-2 gap-2 rounded-xl bg-zinc-800 p-8 shadow-2xl"
-          onClick={() => {}}
+          onClick={() => {return}}
         >
           <h3 className="col-span-2 text-center font-ibm text-xl text-white">
             Add Food
@@ -194,7 +194,7 @@ const NutritionView  = ({ nodeRef }: PanelProps) => {
             name="editEntryWeight"
             id="editEntryWeight"
             placeholder="Food"
-            onChange={(e) => {}}
+            onChange={(e) => {return}}
             value={""}
           />
 
@@ -206,7 +206,7 @@ const NutritionView  = ({ nodeRef }: PanelProps) => {
             name="editEntryWeight"
             id="editEntryWeight"
             placeholder="Amount"
-            onChange={(e) => {}}
+            onChange={(e) => {return}}
             value={""}
           />
 
@@ -230,7 +230,7 @@ const NutritionView  = ({ nodeRef }: PanelProps) => {
           <div className="col-span-2 grid items-center justify-center align-middle">
             <button
               className={`w-40 rounded-full bg-sky-600 px-10 py-3 font-semibold text-white no-underline transition hover:bg-sky-500`}
-              onClick={() => {}}
+              onClick={() => {return}}
             >
               0 kcal
             </button>
