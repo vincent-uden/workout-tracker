@@ -10,8 +10,9 @@ import {
   ReferenceDot,
 } from "recharts";
 import { api } from "../utils/api";
+import { PanelProps } from "../pages";
 
-const WeightView: React.FC = () => {
+const WeightView = ({ nodeRef }: PanelProps) => {
   const [newWeight, setNewWeight] = useState<string>("");
   const [minW, setMinW] = useState<number>(0);
   const [maxW, setMaxW] = useState<number>(100);
@@ -62,7 +63,7 @@ const WeightView: React.FC = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-start gap-4">
+    <div className="flex flex-col items-center justify-start gap-4" ref={nodeRef}>
       <div
         className={
           (sessionData ? "block" : "hidden") +

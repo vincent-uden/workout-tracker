@@ -77,12 +77,12 @@ const Home: NextPage = () => {
         </div>
         <div className="container mx-auto flex min-h-screen flex-col items-center justify-center gap-12 py-16">
           <div className="flex grow flex-col items-center">
-            <TransitionGroup className="panels">
+            <TransitionGroup component={null}>
               {
                 {
                   weight: (
                     <CSSTransition ref={weightRef} timeout={500} classNames="view-panel">
-                      <WeightView />
+                      <WeightView nodeRef={weightRef}/>
                     </CSSTransition>
                   ),
                   workout: (
@@ -107,9 +107,10 @@ const Home: NextPage = () => {
 
 export default Home;
 
-interface PanelProps {
+export interface PanelProps {
   nodeRef: React.RefObject<HTMLDivElement>,
 }
+
 
 const WorkoutView = ({nodeRef}: PanelProps) => {
   return (
