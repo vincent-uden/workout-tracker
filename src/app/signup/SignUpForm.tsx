@@ -6,14 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TRPCError } from "@trpc/server";
 import { TRPCClientError } from "@trpc/client";
+import { useRouter } from "next/navigation";
 
 export function SignUpForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const router = useRouter();
 
-  const createUser = api.user.create.useMutation();
+  const createUser = api.user.create.useMutation({ onSuccess: () => {
+      router.push("/signin");
+  }});
 
   return (
     <div className="mx-auto flex max-w-64 flex-col items-stretch">

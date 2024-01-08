@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { api } from "~/trpc/react";
+import Cookies from "js-cookie";
 
 function formatDateShort(date: Date) {
   let output = "";
@@ -81,7 +82,7 @@ export default function Dashboard() {
             <p className="grow font-bold">Weight (kg)</p>
             <p className="font-bold">Date</p>
           </div>
-          <ScrollArea className="h-96 px-2">
+          <ScrollArea className="h-96" onClick={() => {setSelectedEntry(null)}}>
             <table className="w-full">
               {weightLogs.isSuccess &&
                 weightLogs.data!!.map((log, i) => {
@@ -94,10 +95,13 @@ export default function Dashboard() {
                           : "bg-transparent",
                       )}
                       key={`id-${log.id}`}
-                      onClick={() => setSelectedEntry(i)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedEntry(i);
+                      }}
                     >
-                      <td className="text-right">{log.weight.toFixed(1)}</td>
-                      <td className="text-right">
+                      <td className="text-right pl-2">{log.weight.toFixed(1)}</td>
+                      <td className="text-right pr-2">
                         {formatDateShort(log.created_at)}
                       </td>
                     </tr>
@@ -119,6 +123,15 @@ export default function Dashboard() {
           disabled={selectedEntry == null}
         >
           Delete Weight Entry
+        </Button>
+        <div className="h-8" />
+        <Button
+          onClick={() => {
+            Cookies.remove("token");
+            router.push("/");
+          }}
+        >
+          Sign Out
         </Button>
       </div>
     </>

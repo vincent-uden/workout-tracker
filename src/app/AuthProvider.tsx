@@ -18,13 +18,17 @@ export const AuthContext = createContext<{
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState("");
   const pathname = usePathname();
+  const router = useRouter();
   const validate = api.user.validate.useQuery({token});
+  const utils = api.useUtils();
 
   useEffect(() => {
     if (Cookies.get("token") !== undefined) {
       setToken(Cookies.get("token")!!);
+    } else {
+      utils.user.invalidate();
     }
-  }, [pathname]);
+  }, [pathname, router]);
 
   return (
     <AuthContext.Provider value={{ user: validate.data ?? null, token }}>

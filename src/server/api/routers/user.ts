@@ -3,7 +3,7 @@ import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import sql from "~/server/db";
+import { sql } from "~/server/db";
 import { env } from "~/env";
 import { TRPCError } from "@trpc/server";
 
@@ -155,7 +155,7 @@ export const userRouter = createTRPCRouter({
             user_id: z.string().uuid(),
           }),
         );
-        return schema.parse(await sql`SELECT * FROM workout_weight_entry;`);
+        return schema.parse(await sql`SELECT * FROM workout_weight_entry WHERE user_id = ${user.userId};`);
       }
     }),
 });

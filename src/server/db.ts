@@ -1,9 +1,8 @@
-import postgres from 'postgres'
-import { env } from '../env.js';
+import postgres from "postgres";
+import { env } from "../env.js";
 
-const sql = postgres(
-  env.PSQL_URL,
-  { /* options */ }
-); // will use psql environment variables
+declare global {
+  var sql: postgres.Sql<{}>;
+}
 
-export default sql;
+export const sql = global.sql || postgres(env.PSQL_URL);
